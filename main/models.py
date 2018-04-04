@@ -23,13 +23,13 @@ tokenizer = pickle.load(open(token_path, 'rb'))
 word_index = tokenizer.word_index
 
 
-def embeding_baseline():
+def embedding_raw():
     return Embedding(len(word_index) + 1,
                      EMBEDDING_DIM,
                      input_length=MAX_SEQUENCE_LENGTH)
 
 
-def embeding():
+def embedding():
     import numpy as np
     embedding_matrix = np.load('data/embedding_matrix.npy')
     return Embedding(len(word_index) + 1,
@@ -41,12 +41,12 @@ def embeding():
 
 def FastText():
     input_q = Input(shape=(MAX_SEQUENCE_LENGTH,), dtype='float64')
-    q = embeding_baseline()(input_q)
+    q = embedding_raw()(input_q)
     q = GlobalAveragePooling1D()(q)
     q = Dropout(DROPOUT_RATE)(q)
 
     input_a = Input(shape=(MAX_SEQUENCE_LENGTH,), dtype='float64')
-    a = embeding_baseline()(input_a)
+    a = embedding_raw()(input_a)
     a = GlobalAveragePooling1D()(a)
     a = Dropout(DROPOUT_RATE)(a)
 
@@ -61,10 +61,10 @@ def FastText():
     return model
 
 
-def CNN():
+def CNN1():
     ##### Q
     input_q = Input(shape=(MAX_SEQUENCE_LENGTH,), dtype='float64')
-    q = embeding_baseline()(input_q)
+    q = embedding_raw()(input_q)
     # cnn1模块，kernel_size = 3
     conv1_1 = Conv1D(256, 3, padding='same')(q)
     bn1_1 = BatchNormalization()(conv1_1)
@@ -96,7 +96,7 @@ def CNN():
 
     ##### A
     input_a = Input(shape=(MAX_SEQUENCE_LENGTH,), dtype='float64')
-    a = embeding_baseline()(input_a)
+    a = embedding_raw()(input_a)
     # cnn1模块，kernel_size = 3
     conv1_1 = Conv1D(256, 3, padding='same')(a)
     bn1_1 = BatchNormalization()(conv1_1)
@@ -138,10 +138,10 @@ def CNN():
     return model
 
 
-def CNN_better():
+def CNN2():
     ##### Q
     input_q = Input(shape=(MAX_SEQUENCE_LENGTH,), dtype='float64')
-    q = embeding()(input_q)
+    q = embedding()(input_q)
     # cnn1模块，kernel_size = 3
     conv1_1 = Conv1D(256, 3, padding='same')(q)
     bn1_1 = BatchNormalization()(conv1_1)
@@ -173,7 +173,7 @@ def CNN_better():
 
     ##### A
     input_a = Input(shape=(MAX_SEQUENCE_LENGTH,), dtype='float64')
-    a = embeding()(input_a)
+    a = embedding()(input_a)
     # cnn1模块，kernel_size = 3
     conv1_1 = Conv1D(256, 3, padding='same')(a)
     bn1_1 = BatchNormalization()(conv1_1)
@@ -217,7 +217,7 @@ def CNN_better():
 
 def BiLSTM():
     input_q = Input(shape=(MAX_SEQUENCE_LENGTH,), dtype='float64')
-    q = embeding()(input_q)
+    q = embedding()(input_q)
     q = Bidirectional(LSTM(QA_EMBED_SIZE, return_sequences=True, dropout=DROPOUT_RATE, recurrent_dropout=DROPOUT_RATE),
                       merge_mode="sum")(q)
     q = TimeDistributed(Dense(QA_EMBED_SIZE))(q)
@@ -225,7 +225,7 @@ def BiLSTM():
     q = Dropout(DROPOUT_RATE)(q)
 
     input_a = Input(shape=(MAX_SEQUENCE_LENGTH,), dtype='float64')
-    a = embeding()(input_a)
+    a = embedding()(input_a)
     a = Bidirectional(LSTM(QA_EMBED_SIZE, return_sequences=True, dropout=DROPOUT_RATE, recurrent_dropout=DROPOUT_RATE),
                       merge_mode="sum")(a)
     a = TimeDistributed(Dense(QA_EMBED_SIZE))(a)
@@ -250,7 +250,7 @@ def Attention():
     from seq2seq.models import AttentionSeq2Seq
     
     input_q = Input(shape=(MAX_SEQUENCE_LENGTH,), dtype='float64')
-    q = embeding()(input_q)
+    q = embedding()(input_q)
     q = AttentionSeq2Seq(input_dim=EMBEDDING_DIM, input_length=MAX_SEQUENCE_LENGTH,
                          output_length=MAX_SEQUENCE_LENGTH, output_dim=QA_EMBED_SIZE,
                          depth=1)(q)
@@ -258,7 +258,7 @@ def Attention():
     q = Dropout(DROPOUT_RATE)(q)
 
     input_a = Input(shape=(MAX_SEQUENCE_LENGTH,), dtype='float64')
-    a = embeding()(input_a)
+    a = embedding()(input_a)
     a = AttentionSeq2Seq(input_dim=EMBEDDING_DIM, input_length=MAX_SEQUENCE_LENGTH,
                          output_length=MAX_SEQUENCE_LENGTH, output_dim=QA_EMBED_SIZE,
                          depth=1)(a)
