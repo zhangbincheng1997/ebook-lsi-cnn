@@ -12,17 +12,17 @@
 ## 下载数据
 
 1. http://www.tipdm.org/jingsa/1253.jhtml  
-(train_data_complete.json/test_data_sample.json/submit_sample.txt)=> main/data
+train_data_complete.json、test_data_sample.json、submit_sample.txt => main/data 文件夹
 
 2. https://spaces.ac.cn/archives/4338  
-(me_train.json => generalization/data)
+me_train.json => generalization/data 文件夹
 
 ## 运行项目
 ```
 run:
-word2vec/step.ipynb -> word2vec/word2vec.ipynb -> 
-main/data/data.ipynb -> main/data/1\_2\_3\_4\_5xxxxxx.ipynb -> main/evaluate.ipynb -> 
-test/data/newdata.ipnb -> test/data/data.ipynb -> test/predict.ipynb -> test/evaluate.ipynb
+1. word2vec/step.ipynb -> word2vec/word2vec.ipynb
+2. main/data/data.ipynb -> main/data/1\_2\_3\_4\_5xxxxxx.ipynb -> main/evaluate.ipynb
+3. test/data/newdata.ipynb -> test/data/data.ipynb -> test/predict.ipynb -> test/evaluate.ipynb
 
 tree
 .
