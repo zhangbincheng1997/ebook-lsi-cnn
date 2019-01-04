@@ -1,6 +1,6 @@
-# 智能阅读模型的构建
+# 智能阅读模型
 
-## 构建流程
+## 概述
 总体分为两部分：第一部分关键词匹配，第二部分精准匹配，最后选择置信度最高的正确回答。
 
 第一部分可使用 TF-IDF、LSI 等传统方法。
@@ -19,12 +19,22 @@ me_train.json => generalization/data 文件夹
 
 ## 运行项目
 ```
-run:
-1. word2vec/step.ipynb -> word2vec/word2vec.ipynb
-2. main/data/data.ipynb -> main/data/1\_2\_3\_4\_5xxxxxx.ipynb -> main/evaluate.ipynb
-3. test/data/newdata.ipynb -> test/data/data.ipynb -> test/predict.ipynb -> test/evaluate.ipynb
+$ ......
+1. word2vec/step.ipynb -> 
+  word2vec/word2vec.ipynb
+2. main/data/data.ipynb -> 
+  main/data/1xxxxxx.ipynb 
+  main/data/2xxxxxx.ipynb 
+  main/data/3xxxxxx.ipynb 
+  main/data/4xxxxxx.ipynb 
+  main/data/5xxxxxx.ipynb 
+  -> main/evaluate.ipynb
+3. test/data/newdata.ipynb -> 
+  test/data/data.ipynb -> 
+  test/predict.ipynb -> 
+  test/evaluate.ipynb
 
-tree
+$ tree
 .
 ├── word2vec
 │   ├── step.ipynb
@@ -44,7 +54,6 @@ tree
     │   └── newdata.ipynb
     ├── evaluate.ipynb
     └─── predict.ipynb
-
 ```
 
 ## 模型设计
